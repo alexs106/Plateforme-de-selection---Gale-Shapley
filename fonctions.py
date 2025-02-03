@@ -106,7 +106,21 @@ def GS_parcours(liste_pref_etu, liste_pref_spe):
     return dico_mariages
 
 def det_paires_instables(affect, liste_pref_h, liste_pref_f):
-    return 
+    paires_instables = []
+
+    for spe, etu in affect.items():
+        for i in etu:
+            id_spe = liste_pref_h[i].index(spe) #note des parcours dans les pref des etudiants
+            for j in liste_pref_h[i][:id_spe]: #loop des parcours que l'étudiant préfère au sien
+
+                # il faut que ce parcours préfère etu aux sien
+                prefMax = max([liste_pref_f[j].index(x)for x in affect[liste_pref_f]])
+                for etu2 in liste_pref_f[j][:prefMax]: #on parcours les étudiants
+
+                    if(j==i):
+                        paires_instables.append((spe,etu))
+    return paires_instables
+
     
     
 
