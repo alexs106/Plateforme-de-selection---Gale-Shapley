@@ -16,22 +16,17 @@ def write(str_content, output_file):
 
 def pref_spe_random(n):
     result = "NbEtu "+str(n)+"\n"
-    print(result)
     cap = [1 for i in range(9)]
-    print(cap)
 
     matpref = [[i for i in range(n)] for _ in range (9)]
-    print(matpref)
 
     if n>9 :
         for i in range(n-9):
             ind = random.randint(0, 8)
             cap[ind] += 1
-    print(cap)
 
     for elem in matpref:
         shuffle(elem)
-    print(matpref)
 
     result += "Cap "
     for elem in cap:
@@ -41,15 +36,17 @@ def pref_spe_random(n):
     masters = ["ANDOIDE", "BIM", "DAC", "IMA", "RES", "SAR", "SESI", "SFPN", "STL"]
 
     for i in range(9):
-        result += str(i) + " "+ str(masters[i])+" "
+        result += str(i) + "   "+ str(masters[i])+"   "
         for elem in matpref[i]:
-            result += str(elem)+" "
+            result += str(elem)+"   "
         result+= "\n"
     
     print(result)
+    write(result, "PrefSpeRandom"+str(n)+".txt")
 
 
 pref_spe_random(14)
+
 
 
 
