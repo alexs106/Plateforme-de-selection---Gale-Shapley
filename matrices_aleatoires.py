@@ -47,7 +47,22 @@ def pref_spe_random(n):
 
 pref_spe_random(14)
 
+def pref_etu_random(n):
+    result = str(n)+"\n"
+
+    matpref = [[i for i in range(9)]for _ in range(n)]
+
+    for elem in matpref:
+        shuffle(elem)
+
+    for i in range(n):
+        result += str(i) + "   "+ "Etu"+str(i)+"   "
+        for elem in matpref[i]:
+            result += str(elem)+ "   "
+        result += "\n"
+
+    print(result)
+    write(result, "PrefEtuRandom"+str(n)+".txt")
 
 
-
-#write(str(result)+"\n"+" ".join(map(str, stable_max)), output_file)
+pref_etu_random(14)
