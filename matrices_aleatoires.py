@@ -40,12 +40,9 @@ def pref_spe_random(n):
         for elem in matpref[i]:
             result += str(elem)+"   "
         result+= "\n"
-    
-    print(result)
-    write(result, "PrefSpeRandom"+str(n)+".txt")
 
+    write(result, "PrefSpeRandom.txt")
 
-pref_spe_random(14)
 
 def pref_etu_random(n):
     result = str(n)+"\n"
@@ -61,8 +58,5 @@ def pref_etu_random(n):
             result += str(elem)+ "   "
         result += "\n"
 
-    print(result)
-    write(result, "PrefEtuRandom"+str(n)+".txt")
+    write(result, "PrefEtuRandom.txt")
 
-
-pref_etu_random(14)
