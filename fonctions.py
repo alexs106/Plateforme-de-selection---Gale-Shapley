@@ -69,6 +69,41 @@ def GS_etudiants(liste_pref_etu, liste_pref_spe,fichier):
     return dico_mariages
 
 
+# Nouvelle version GS étudiants - Check
+def GS_etudiants_nouv(liste_pref_etu, liste_pref_spe, fichier):
+    nb_etu = len(liste_pref_etu)
+    liste_etu = [i for i in range(nb_etu)]
+    dico_mariages = {}
+    etu_propr = {etu: [] for etu in liste_pref_etu}
+
+    while liste_etu:
+        etudiant = liste_etu[0]
+        pref_etu = liste_pref_etu[etudiant] #Check
+        for master in pref_etu:
+            if master not in etu_propr[etudiant]:
+                etu_propr[etudiant].append(master)
+
+            if master not in dico_mariages.values():
+                dico_mariages[etudiant] = master
+                liste_etu.remove(etudiant)
+                #break ?
+            else:
+                for e, m in dico_mariages.items():
+                    if m == master:
+                        current_etu = e
+                        #break ?
+                pref_master = liste_pref_spe[master]
+                if liste_pref_spe.index(etudiant) < liste_pref_spe.index(current_etu):
+                    dico_mariages[etudiant] = master
+                    liste_etu.remove(etudiant)
+                    liste_etu.append(current_etu)
+                    del dico_mariages[current_etu]
+                    #break ?
+    return dico_mariages
+
+
+
+
 def GS_parcours(liste_pref_etu, liste_pref_spe, fichier):
     nb_parcours = len(liste_pref_spe)
     cap_master = capacite(fichier) #Check à méditer
