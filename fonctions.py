@@ -1,3 +1,5 @@
+import heapq as h
+
 def lecture_preferences_etu(fichier):
     contenu = open(fichier, "r").readlines() #lecture du fichier
 
@@ -70,38 +72,44 @@ def GS_etudiants(liste_pref_etu, liste_pref_spe,fichier):
 
 
 # Nouvelle version GS étudiants - Check
-def GS_etudiants_nouv(liste_pref_etu, liste_pref_spe, fichier):
+def GS_etudiants_nouv(liste_pref_etu, liste_pref_spe, capacite):
     nb_etu = len(liste_pref_etu)
     liste_etu = [i for i in range(nb_etu)]
+    
+    etu_propr = {etu: list(liste_pref_etu[etu]) for etu in range(nb_etu)}
+    master_propr = {master: list(liste_pref_spe[master]) for master in range(len(liste_pref_spe))}
     dico_mariages = {}
-    etu_propr = {etu: [] for etu in liste_pref_etu}
 
     while liste_etu:
-        etudiant = liste_etu[0]
-        pref_etu = liste_pref_etu[etudiant] #Check
-        for master in pref_etu:
-            if master not in etu_propr[etudiant]:
-                etu_propr[etudiant].append(master)
+        current = liste_etu.pop()
+        print("current:", current)
+        print("etu prop:", etu_propr)
+        master = int(etu_propr[current].pop(0)) #premier elem dans les preferences de current
+        print("master:", master)
 
-            if master not in dico_mariages.values():
-                dico_mariages[etudiant] = master
-                liste_etu.remove(etudiant)
-                #break ?
+        if master not in dico_mariages:
+            dico_mariages[master] = []
+            h.heapify(dico_mariages[master])
+
+        if capacite[master] > 0:
+            capacite[master] -= 1
+            h.heappush(dico_mariages[master], (master_propr[master].index(current),current))
+        else:
+            pref_max, etu_min = h.nlargest(1,dico_mariages[master])[0]
+
+            index = master_propr[master].index(current)
+            if index < pref_max:
+                dico_mariages[master].remove((pref_max, etu_min))
+                h.heapify(dico_mariages[master])
+                liste_etu.append(etu_min)
+                h.heappush(dico_mariages[master], (index, current))
             else:
-                for e, m in dico_mariages.items():
-                    if m == master:
-                        current_etu = e
-                        #break ?
-                pref_master = liste_pref_spe[master]
-                if liste_pref_spe.index(etudiant) < liste_pref_spe.index(current_etu):
-                    dico_mariages[etudiant] = master
-                    liste_etu.remove(etudiant)
-                    liste_etu.append(current_etu)
-                    del dico_mariages[current_etu]
-                    #break ?
+                liste_etu.append(current)
+
+    for master in dico_mariages:
+        dico_mariages[master] = [etu for _, etu in sorted(dico_mariages[master])]
+
     return dico_mariages
-
-
 
 
 def GS_parcours(liste_pref_etu, liste_pref_spe, fichier):
@@ -162,6 +170,7 @@ def det_paires_instables(affect, liste_pref_h, liste_pref_f):
 prefetu = lecture_preferences_etu("PrefEtu.txt")
 prefspe = lecture_preferences_spe("PrefSpe.txt")
 
-#print(capacite("PrefSpe.txt"))
-#print("GS Etudiants :", GS_etudiants(prefetu, prefspe))
-#print("GS Masters :", GS_parcours(prefetu,prefspe))
+#print(prefetu)
+#print(prefspe)
+print("GS Etudiants :", GS_etudiants_nouv(prefetu, prefspe, capacite("PrefSpe.txt")))
+print("GS Masters :", GS_parcours(prefetu,prefspe, "PrefSpe.txt"))
