@@ -36,7 +36,7 @@ def detestable(liste_pref, maris):
             return elem 
         
 
-#TAS -> vérifier 
+"""
 def GS_etudiants(liste_pref_etu, liste_pref_spe,fichier):
     nb_etu = len(liste_pref_etu)
     cap_master = capacite(fichier) 
@@ -70,6 +70,7 @@ def GS_etudiants(liste_pref_etu, liste_pref_spe,fichier):
             #CHECK
     return dico_mariages
 
+"""
 
 # Nouvelle version GS étudiants - Check
 def GS_etudiants_nouv(liste_pref_etu, liste_pref_spe, capacite):
@@ -82,10 +83,7 @@ def GS_etudiants_nouv(liste_pref_etu, liste_pref_spe, capacite):
 
     while liste_etu:
         current = liste_etu.pop()
-        print("current:", current)
-        print("etu prop:", etu_propr)
         master = int(etu_propr[current].pop(0)) #premier elem dans les preferences de current
-        print("master:", master)
 
         if master not in dico_mariages:
             dico_mariages[master] = []
@@ -111,7 +109,7 @@ def GS_etudiants_nouv(liste_pref_etu, liste_pref_spe, capacite):
 
     return dico_mariages
 
-
+"""
 def GS_parcours(liste_pref_etu, liste_pref_spe, fichier):
     nb_parcours = len(liste_pref_spe)
     cap_master = capacite(fichier) #Check à méditer
@@ -125,8 +123,8 @@ def GS_parcours(liste_pref_etu, liste_pref_spe, fichier):
     while liste_parcours:
         current = liste_parcours[0]
         parcours_propr[current] += 1
-        print("pc"+str( parcours_propr))
-        print(cap_master[current])
+        #print("pc"+str( parcours_propr))
+        #print(cap_master[current])
         hubby = liste_pref_spe[current][parcours_propr[current]]
         #print(dico_mariages) 
         #print(parcours_propr)
@@ -151,6 +149,52 @@ def GS_parcours(liste_pref_etu, liste_pref_spe, fichier):
 
     return dico_mariages
 
+"""
+
+def GS_parcours_nouv(liste_pref_etu, liste_pref_spe,capacite):
+    nb_masters = len(liste_pref_spe)
+    liste_masters = [i for i in range(nb_masters)]
+
+    etu_propr = {etu: list(liste_pref_etu[etu]) for etu in range(len(liste_pref_etu))}
+    master_propr = {master: list(liste_pref_spe[master]) for master in range(nb_masters)}
+    dico_mariages = {}
+    parcours = {master: [] for master in range(nb_masters)}
+
+    while liste_masters:
+        master = liste_masters.pop()
+        #print(capacite[master])
+
+        while capacite[master] > 0:
+            etudiant = int(master_propr[master].pop(0))
+
+            if etudiant not in dico_mariages:
+                dico_mariages[etudiant] = master
+                capacite[master] -= 1
+                h.heappush(parcours[master], (etu_propr[etudiant].index(master), etudiant))
+
+            else:
+                current = dico_mariages[etudiant]
+                index_current = etu_propr[etudiant].index(current)
+                index_master = etu_propr[etudiant].index(master)
+
+                if index_current > index_master:
+
+                    liste_masters.append(current)
+                    capacite[current] += 1
+                    dico_mariages[etudiant] = master
+                    capacite[master] -= 1
+                    h.heappush(parcours[master], (index_master, etudiant))
+                    parcours[current] = [(mast, etu) for mast, etu in parcours[current] if etu != etudiant]
+                    h.heapify(parcours[current])
+    
+    for m in parcours:
+        parcours[m] = [etu for _, etu in sorted(parcours[m])]
+
+    return dico_mariages
+
+
+
+
 def det_paires_instables(affect, liste_pref_h, liste_pref_f):
     paires_instables = []
 
@@ -172,5 +216,5 @@ prefspe = lecture_preferences_spe("PrefSpe.txt")
 
 #print(prefetu)
 #print(prefspe)
-print("GS Etudiants :", GS_etudiants_nouv(prefetu, prefspe, capacite("PrefSpe.txt")))
-print("GS Masters :", GS_parcours(prefetu,prefspe, "PrefSpe.txt"))
+#print("GS Etudiants :", GS_etudiants_nouv(prefetu, prefspe, capacite("PrefSpe.txt")))
+#print("GS Masters :", GS_parcours_nouv(prefetu,prefspe, capacite("PrefSpe.txt")))
