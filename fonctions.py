@@ -233,7 +233,12 @@ def det_paires_instables(affectXA, listeprefX, listeprefA):
 prefetu = lecture_preferences_etu("PrefEtu.txt")
 prefspe = lecture_preferences_spe("PrefSpe.txt")
 
+
 #print(prefetu)
 #print(prefspe)
 #print("GS Etudiants :", GS_etudiants_nouv(prefetu, prefspe, capacite("PrefSpe.txt")))
 #print("GS Masters :", GS_parcours_nouv(prefetu,prefspe, capacite("PrefSpe.txt")))
+
+#print(det_paires_instables([(1,5),(0,6),(7,7),(3,0),(4,1),(10,4),(9,2),(5,0),(6,8),(2,8),(8,3)], prefetu, prefspe))
+#print(det_paires_instables([(6,1),(2,9),(5,0),(7,7),(4,10),(0,5),(0,3),(1,4),(8,6),(8,2),(3,8)], prefspe, prefetu))
+
