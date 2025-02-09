@@ -107,7 +107,4 @@ def courbe_calcul_iteration(gs):
     y = []
 """
 
-         
-
-
 courbe_GS(temps_calcul_GS_etudiant)
