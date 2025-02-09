@@ -193,23 +193,42 @@ def GS_parcours_nouv(liste_pref_etu, liste_pref_spe,capacite):
     return dico_mariages
 
 
+def det_paires_instables(affectXA, listeprefX, listeprefA):
+    couples_instables = []
 
+    partenaire_X = {x: a for x, a in affectXA}
+    partenaire_A = {a: x for x, a in affectXA}
 
-def det_paires_instables(affect, liste_pref_h, liste_pref_f):
-    paires_instables = []
+    for x, a in affectXA:
+        pref_x = listeprefX[x]
+        pref_a = listeprefA[a]
 
-    for spe, etu in affect.items():
-        for i in etu:
-            id_spe = liste_pref_h[i].index(spe) #note des parcours dans les pref des etudiants
-            for j in liste_pref_h[i][:id_spe]: #loop des parcours que l'étudiant préfère au sien
+        # Trouver la position de a dans la liste de préférences de x
+        pos_a = pref_x.index(a)
+        # Trouver tous les a préférés
+        meilleurs_a = pref_x[:pos_a]
 
-                # il faut que ce parcours préfère etu aux sien
-                prefMax = max([liste_pref_f[j].index(x)for x in affect[liste_pref_f]])
-                for etu2 in liste_pref_f[j][:prefMax]: #on parcours les étudiants
+        for a_pref in meilleurs_a:
+            if a_pref in partenaire_A: 
+                partenaire_actuel_x = partenaire_A[a_pref]  # Récupérer son partenaire actuel
+                # Vérifier si a préfère x à son partenaire actuel
+                if listeprefA[a_pref].index(x) < listeprefA[a_pref].index(partenaire_actuel_x):
+                    if (x, a_pref) not in couples_instables : 
+                        couples_instables.append((x, a_pref))
 
-                    if(j==i):
-                        paires_instables.append((spe,etu))
-    return paires_instables
+        #On fait la même chose du coté de x
+        pos_x = pref_a.index(x)
+        meilleurs_x = pref_a[:pos_x]
+
+        for x_pref in meilleurs_x:
+            if x_pref in partenaire_X:
+                partenaire_actuel_a = partenaire_X[x_pref]
+                if listeprefX[x_pref].index(a) < listeprefX[x_pref].index(partenaire_actuel_a):
+                    if (x_pref, a) not in couples_instables : 
+                        couples_instables.append((x_pref, a))
+
+    return couples_instables
+ 
     
 prefetu = lecture_preferences_etu("PrefEtu.txt")
 prefspe = lecture_preferences_spe("PrefSpe.txt")
