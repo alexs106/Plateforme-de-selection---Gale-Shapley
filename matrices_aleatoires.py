@@ -1,9 +1,3 @@
-""". Ecrivez deux m´ethodes prenant en param`etre un nombre ´ n d’´etudiants :
-— l’une g´en´erant un matrice CE des pr´ef´erences de ces n ´etudiants sur les 9 parcours du master
-(pr´ef´erences al´eatoires),
-— l’autre g´en´erant une matrice CP des pr´ef´erences des 9 parcours du master sur les n ´etudiants
-(pr´ef´erences al´eatoires)."""
-
 import random
 from random import shuffle
 
@@ -60,3 +54,12 @@ def pref_etu_random(n):
 
     write(result, "PrefEtuRandom.txt")
 
+
+"""
+TESTS DE GÉNÉRATION DES MATRICES ALÉATOIRES -> on peut remplacer les chiffres 
+"""
+
+#print(pref_etu_random(10))
+#print(pref_etu_random(50))
+#print(pref_spe_random(10))
+#print(pref_spe_random(50))

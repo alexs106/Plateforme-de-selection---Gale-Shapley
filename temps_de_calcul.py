@@ -3,6 +3,7 @@ import matrices_aleatoires as mat
 import fonctions as f
 import matplotlib.pyplot as plt
 
+#Calcul le temps de calcul de GS etudiant en faisant varier entre 200 et 2000
 def temps_calcul_GS_etudiant(liste_n, liste_temps):
     n = 200
 
@@ -34,7 +35,8 @@ def temps_calcul_GS_etudiant(liste_n, liste_temps):
         liste_temps.append(avg_etu)
         n+= 200
 
-        
+
+#Calcul le temps de calcul de GS parcours en faisant varier entre 200 et 2000      
 def temps_calcul_GS_master(liste_n, liste_temps):
         n = 200
 
@@ -45,6 +47,7 @@ def temps_calcul_GS_master(liste_n, liste_temps):
                 mat.pref_spe_random(n)
                 mat.pref_etu_random(n)
 
+                #Définition des données
                 prefetu = f.lecture_preferences_etu("PrefEtuRandom.txt")
                 prefspe = f.lecture_preferences_spe("PrefSpeRandom.txt")
             
@@ -82,29 +85,5 @@ def courbe_GS(gs):
         plt.savefig("résultats.png")
         plt.show()
 
-
-"""   
-def nb_iterationsGS(n,x,y,gs):
-    cpt = 0
-    for i in range(10):
-
-        mat.pref_etu_random(n)
-        mat.pref_spe_random(n)
-
-        prefetu = f.lecture_preferences_etu("PrefEtuRandom.txt")
-        prefspe = f.lecture_preferences_spe("PrefSpeRandom.txt")
-
-        if gs == "etu":
-            f.GS_etudiants_nouv(prefetu, prefspe, f.capacite("PrefSpeRandom.txt"))
-        else:
-            f.GS_parcours_nouv(prefetu, prefspe, f.capacite("PrefSpeRandom.txt"))
-    x.append(n)
-    y.append(cpt/10)
-
-
-def courbe_calcul_iteration(gs):
-    x = []
-    y = []
-"""
 
 courbe_GS(temps_calcul_GS_etudiant)
