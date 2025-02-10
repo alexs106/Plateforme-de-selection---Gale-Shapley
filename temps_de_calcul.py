@@ -86,4 +86,5 @@ def courbe_GS(gs):
         plt.show()
 
 
-courbe_GS(temps_calcul_GS_etudiant)
+#courbe_GS(temps_calcul_GS_etudiant)
+#courbe_GS(temps_calcul_GS_master)

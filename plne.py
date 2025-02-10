@@ -31,7 +31,7 @@ binary = ""
 for i in range(len(prefetu)):
     contraintes1+="c"+str(i+1)+": "
     for j in range(len(prefetu[0])):
-        res+= str(tabdistpref[i][j])+" x"+str(i)+str(j)+" + "
+        res+= str(tabdistpref[i][j])+" x"+str(i)+"_"+str(j)+" + "
         contraintes1+= " x"+str(i)+"_"+str(j)+" + "
         contraintes3+= str(tabdistpref[i][j])+" x"+str(i)+"_"+str(j)+ " + "
         bounds+= "0 <= x"+str(i)+"_"+str(j)+" <= 1\n"
@@ -49,12 +49,12 @@ for j in range(len(prefetu[0])):
         if i== len(prefetu)-1:
             contraintes2 = contraintes2[:-3]+" <= "+ str(capacite[j])+"\n"
 
-res += contraintes1 + contraintes2 + contraintes3
+res += "\n"+contraintes1 + contraintes2 + contraintes3
 res+="Bounds\n"+bounds
 res+="Binary\n"+binary
 res+="\nEnd"
 
-write(res, "PLNE1.ld")
+write(res, "PLNE1.lp")
 
 
 
@@ -86,7 +86,7 @@ binary = ""
 for i in range(len(prefetu)):
     contraintes11+="c"+str(i+1)+": "
     for j in range(len(prefetu[0])):
-        res2+= str(tabdistpref[i][j])+" x"+str(i)+str(j)+" + "
+        res2+= str(tabdistpref[i][j])+" x"+str(i)+"_"+str(j)+" + "
         contraintes11+= " x"+str(i)+"_"+str(j)+" + "
         #contraintes3+= str(tabdistpref[i][j])+" x"+str(i)+"_"+str(j)+ " + "
         bounds+= "0 <= x"+str(i)+"_"+str(j)+" <= 1\n"
@@ -104,12 +104,12 @@ for j in range(len(prefetu[0])):
         if i== len(prefetu)-1:
             contraintes22 = contraintes22[:-3]+" <= "+ str(capacite[j])+"\n"
 
-res2 += contraintes11 + contraintes22 #+ contraintes3
+res2 += "\n"+contraintes11 + contraintes22 #+ contraintes3
 res2+="Bounds\n"+bounds
 res2+="Binary\n"+binary
 res2+="\nEnd"
 
-write(res2, "PLNE14.ld")
+write(res2, "PLNE14.lp")
 
 #question 15
 
@@ -124,7 +124,7 @@ binary = ""
 for i in range(len(prefetu)):
     contraintes111+="c"+str(i+1)+": "
     for j in range(len(prefetu[0])):
-        res3+= str(tabdistpref[i][j])+" x"+str(i)+str(j)+" + "
+        res3+= str(tabdistpref[i][j])+" x"+str(i)+"_"+str(j)+" + "
         contraintes111+= " x"+str(i)+"_"+str(j)+" + "
         contraintes333+= str(pe[i][j])+" x"+str(i)+"_"+str(j)+ " + "
         bounds+= "0 <= x"+str(i)+"_"+str(j)+" <= 1\n"
@@ -142,12 +142,12 @@ for j in range(len(prefetu[0])):
         if i== len(prefetu)-1:
             contraintes222 = contraintes222[:-3]+" <= "+ str(capacite[j])+"\n"
 
-res3 += contraintes111 + contraintes222 + contraintes333
+res3 += "\n"+contraintes111 + contraintes222 + contraintes333
 res3+="Bounds\n"+bounds
 res3+="Binary\n"+binary
 res3+="\nEnd"
 
-write(res3, "PLNE15.ld")
+write(res3, "PLNE15.lp")
 
 print(res3)
 
